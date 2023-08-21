@@ -1,6 +1,6 @@
 const SectionWork = document.getElementsByClassName("gallery")
 const SectionFilter = document.getElementById("category-filter")
-const btn = document.getElementsByClassName("btn-filter")
+
 
 //On retourne une réponser de l'API contenant tous les travaux
 async function getWorks(){
@@ -25,10 +25,7 @@ async function getWorks(){
         SectionWork[0].appendChild(figure)
         figure.appendChild(image)
         figure.appendChild(figcaption)
-    
-    
     }
-    
 }
 
 async function getCategory(){
@@ -39,15 +36,34 @@ async function getCategory(){
         let newButton = document.createElement('button')
         newButton.classList.add('btn-filter')
         
-        console.log(category[i].name)
+        //console.log(category[i].name)
         
         newButton.innerText= category[i].name
-        console.log(newButton)
+       // console.log(newButton)
         SectionFilter.appendChild(newButton)
+    }
+
+    const btn = document.getElementsByClassName("btn-filter")
+    console.log(btn)
+    for(let i=0; i < btn.length; i++){
+        btn[i].addEventListener("click", function() {
+            btnFilter(btn[i])
+        })
     }
 }
 
 getWorks()
 getCategory()
-console.log(btn)
 
+//Filtre permettant de trier en fonction de notre choix
+function btnFilter(category){
+    alert('Vous avez cliqué sur un bouton')
+    console.log(category)
+    const selected = document.querySelector('[selected=""]')
+    selected.removeAttribute("selected")
+    console.log(selected)
+    category.setAttribute("selected","")
+
+    SectionWork[0].innerHTML= ""
+
+}
