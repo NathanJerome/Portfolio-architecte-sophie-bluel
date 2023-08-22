@@ -1,8 +1,7 @@
 const SectionWork = document.getElementsByClassName("gallery")
 const SectionFilter = document.getElementById("category-filter")
-console.log(SectionWork )
 
-//On retourne une réponser de l'API contenant tous les travaux
+//On retourne une réponse de l'API contenant tous les travaux
 async function getWorks(categoryName){
     const reponse = await fetch('http://localhost:5678/api/works')
     const works = await reponse.json()
@@ -93,3 +92,5 @@ function btnFilter(category){
 
 
 }
+
+const submit = document.getElementsByTagName('submit')

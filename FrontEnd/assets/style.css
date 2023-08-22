@@ -206,3 +206,55 @@ footer nav ul {
 	margin: 2em
 }
 
+a {
+	text-decoration: none;
+}
+
+.form_login{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.forget-password, .login-h2{
+	text-align: center;
+	padding-bottom: 50px;
+}
+
+.login-h2{
+	padding-top: 30px;
+}
+
+.forget-password{
+	text-decoration:underline;
+	margin-bottom: 20%;
+}
+
+input[type="text"]{
+	margin-bottom: 10px;
+	border: 1px solid rgba(0,0,0,0.1);
+	width: 30%;
+	justify-content: center;	
+}
+label{
+	margin-bottom: 10px;
+}
+
+label[for="email"]{
+}
+
+label[for="password"]{
+}
+
+input[type="submit"]{
+	height: 30px;
+}
+
+.error-p{
+	color: red;
+	text-align: center;
+	margin-bottom: 5px;
+}
+.green{
+	color: greenyellow;
+}
