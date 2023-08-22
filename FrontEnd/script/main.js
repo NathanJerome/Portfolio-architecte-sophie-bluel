@@ -1,5 +1,18 @@
 const SectionWork = document.getElementsByClassName("gallery")
 const SectionFilter = document.getElementById("category-filter")
+const modal = document.getElementById("modal")
+
+async function openModal(){
+    modal.style.visibility = "visible";
+    document.body.style.backgroundColor = "#B3B2AE";
+}
+
+const modalClose= document.getElementsByClassName("modal-close")[0].addEventListener("click", closeModal)
+
+async function closeModal(){
+    modal.style.visibility = "hidden";
+    document.body.style.backgroundColor = "white";
+}
 
 //On retourne une réponse de l'API contenant tous les travaux
 async function getWorks(categoryName){

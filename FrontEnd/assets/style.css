@@ -258,3 +258,42 @@ input[type="submit"]{
 .green{
 	color: greenyellow;
 }
+.fa-regular, .fa-pen-to-square{
+	color: black;
+	font-size: 10px;
+	padding-left: 15px;
+	cursor: pointer;
+}
+.fa-regular, .fa-pen-to-square{
+	color: black;
+	font-size: 15px;
+	padding-left: 15px;
+	cursor: pointer;
+}
+.text-icon{
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Modal*/
+.modal{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+    width: 50%;
+    height: 70%;
+	background-color: white;
+	border-radius: 10px;
+	transform: translate(-50%, -50%);
+	visibility:hidden;
+}
+.modal-close{
+	border: none;
+	background-color: white;
+	font-size: 40px;
+	position: ABSOLUTE;
+    right: 8px;
+    top: 3px;
+    cursor: pointer;
+
+	/*   A ajouter dans le body: background-color: #B3B2AE;*/
+}
