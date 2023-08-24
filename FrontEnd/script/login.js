@@ -64,10 +64,6 @@ form.addEventListener("submit", (event) => {
             p.innerHTML = 'Connexion'
             p.classList.add("green")
             
-            window.localStorage.setItem("IsConnected", true);
-           // window.location.href = "index.html";
-            
-            console.log("Salut")
             return response.json();
             
             
@@ -86,6 +82,7 @@ form.addEventListener("submit", (event) => {
         if (result.token) {
             console.log(result.token);
             sessionStorage.setItem("token", result.token);
+
             setTimeout(() => {
             window.location.href = "index.html";},"1000");
         }
