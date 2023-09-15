@@ -2,6 +2,9 @@ const form = document.querySelector('form');
 const p = document.getElementById("error-p")
 const a = document.getElementById("login-a")
 const h2 = document.getElementById("my-projets")
+const banner = document.getElementById("edit_mode")
+// A modifier (Changer ID / Bouton)
+const myProject = document.getElementsByClassName("fa-regular fa-pen-to-square")[0]
 
 if (sessionStorage.getItem("token")){
     alert('Vous êtes connecté')
@@ -20,9 +23,11 @@ if (sessionStorage.getItem("token")){
     iconElement.appendChild(iconText)
 
     h2.addEventListener("click", openModal)
+    banner.style.display = "flex"
 
-    a.addEventListener("click", function(){
+    a.addEventListener("click", function(event){
         sessionStorage.removeItem("token")
+        
     })
 }
 else{

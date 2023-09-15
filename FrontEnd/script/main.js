@@ -1,18 +1,39 @@
 const SectionWork = document.getElementsByClassName("gallery")
 const SectionFilter = document.getElementById("category-filter")
 const modal = document.getElementById("modal")
+const modalHeader = document.getElementsByClassName("modal_header")[0]
 const modalContent = document.getElementById('modal_content')
 const overlay = document.getElementsByClassName("overlay")[0]
 const modalEnd = document.getElementsByClassName("modal_end")[0]
+const modalH2 = document.getElementById('modal_h2')
 
 
 
 const modalFormBtn = document.getElementById("btn_modal")
+console.log(overlay)
+overlay.addEventListener('click', () => {
+        if(overlay.style.display === 'block'){
+            closeModal()
+        }
+    })
 
  async function openModal(){
     
+    overlay.style.display = 'block'
     modalContent.innerHTML = ''
+    modalEnd.innerHTML = ''
 
+    const btnAjout = document.createElement('button')
+    btnAjout.type = 'submit'
+    btnAjout.id = 'btn_modal'
+    btnAjout.className = 'btn_modal'
+    btnAjout.innerHTML = 'Ajouter une photo'
+
+    const pDelete = document.createElement('p')
+    pDelete.className = 'delete'
+    pDelete.innerHTML = 'Supprimer la galerie'
+
+    modalH2.innerHTML = 'Galerie photo'
     modal.style.display = 'block';
     overlay.style.opacity = 1
 
@@ -36,12 +57,27 @@ const modalFormBtn = document.getElementById("btn_modal")
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem("token")}`
-                }
-            }).then(response => {
-                if (response.status === 200) {
+                } 
+            }
+            ).then(response => {
+                if (response.status === 204) {
                     alert(`Le produit ${workId} a bien été supprimé`)
+                    // On récupere dans notre DOM l'article et le figure dont notre workId est égal a celui supprimé puis on le remove
+                    const articleDelete = document.querySelector(`article i[data-id="${workId}"]`).closest('article');
+                    const figureDelete = document.querySelector(`figure figcaption[id="${workId}"]`).closest('figure');
+
+                    if (article) {
+                        console.log('Article trouvé :', articleDelete);
+                        articleDelete.remove()
+                        figureDelete.remove()
+                        // Vous pouvez maintenant manipuler ou supprimer l'article trouvé
+                    } else {
+                        console.log(`Aucun article avec data-id="${workId}" n'a été trouvé.`);
+                    }
+                    
                 } else {
                     // Gérer les erreurs
+                    console.log('Une erreur s est produite')
                 }
             })
             
@@ -54,6 +90,14 @@ const modalFormBtn = document.getElementById("btn_modal")
         article.appendChild(img)
         article.appendChild(trashIcon)
         article.appendChild(edit)
+        modalEnd.appendChild(btnAjout)
+        modalEnd.appendChild(pDelete)
+
+        btnAjout.addEventListener('click', () => {
+            modalEnd.removeChild(btnAjout)
+            modalEnd.removeChild(pDelete)
+            modalForm()
+        })
     }
 }
 
@@ -61,13 +105,23 @@ const modalFormBtn = document.getElementById("btn_modal")
 
 
 const modalClose= document.getElementsByClassName("modal-close")[0].addEventListener("click", closeModal)
-modalFormBtn.addEventListener('click', modalForm)
+
 
 async function modalForm(){
     //const modalH2 = document.getElementsById("modal_h2")
-    //modalH2.innerHTML = "Ajout photo"
+    files = 0
+    modalH2.innerHTML = "Ajout photo"
     modalContent.innerHTML = ''
     modalEnd.innerHTML = ''
+
+    // Construction de la fleche
+    const modal_arrow = document.createElement('i')
+    modal_arrow.className = 'fa-solid fa-arrow-left'
+    modal_arrow.addEventListener('click', () => {
+        modalHeader.removeChild(modal_arrow);
+        modalEnd.removeChild(btnValider)
+        openModal()
+    })
 
     //h2
     const divImg = document.createElement("div")
@@ -135,6 +189,7 @@ async function modalForm(){
     })
 
     //Ajout
+    modalHeader.appendChild(modal_arrow)
     modalContent.appendChild(divImg)
     divImg.appendChild(iconImg)
     divImg.appendChild(divPhoto)
@@ -149,47 +204,69 @@ async function modalForm(){
     form.appendChild(listSelect)
 
     modalEnd.appendChild(btnValider)
-    btnValider.addEventListener('click', () => addWork(titreInput, listSelect, files))
-
-
-}
-
-function addWork(titreInput, listSelect, files){
-    const title= titreInput.value;
-    const category = listSelect.value;
-    let imageFile = null;
-    if (files && files.length > 0) {
-        imageFile = files[0];
-    }
-
-    console.log(title + category)
-    console.log(imageFile.name)
-
-    const response = {
-        title: title,
-        categoryId: category,
-        imageUrl: imageFile.name
-    }
-
-    const responseJson = JSON.stringify(response)
-    console.log(`Bearer ${sessionStorage.getItem("token")}`)
+    console.log(btnValider)
+    console.log(document.getElementsByClassName('btn-filter')[0])
+    btnValider.addEventListener('click', (e) => {
+    e.preventDefault()
+    const alerte = []
     
-    fetch('http://localhost:5678/api/works', {
-        method: "POST",
-        body: responseJson,
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `BearerAuth ${sessionStorage.getItem("token")}`
+        if(titreInput.value.length < 5){
+           alerte.push('Le titre est trop court ou est vide')
+        }  
+         if(files === undefined || files == 0){
+            alerte.push('Vous devez renseigner une image')
         }
-    }).then(response => {
-        console.log(response)})
-        console.log(responseJson)
-}
+        
+        else{
+            addWork(titreInput, listSelect, files)}
+            for (let i = 0; alerte.length > i; i++){
+                alert(alerte[i])
+            }
+        })
+        }
+    
+        function addWork(titreInput, listSelect, files) {
+            const title = titreInput.value;
+            const category = listSelect.value;
+            let imageFile = null;
+            
+            if (files && files.length > 0) {
+                imageFile = files[0];
+            }
+        
+            const formData = new FormData();
+            formData.append("title", title);
+            formData.append("category", category);
+            formData.append('image', imageFile);
+        
+            
+            fetch('http://localhost:5678/api/works', {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+                }
+            })
+            .then(response => {
+                if (response.status === 201) {
+                    console.log("Travail ajouté avec.");
+                    alert(`Le produit ${title} a bien été ajouté`)
+                    SectionWork[0].innerHTML = ""
+                    getWorks("Tous")
+                    
+                } else {
+                    console.error("Erreur lors de l'ajout", response.status);
+                }
+            })
+            .catch(error => {
+                console.error("An error occurred:", error);
+            });
+        }
 
 async function closeModal(){
     
     modal.style.display = 'none';
-    overlay.style.opacity = 0
+    overlay.style.display = 'none'
     
 }
 
@@ -198,10 +275,7 @@ async function getWorks(categoryName){
     const reponse = await fetch('http://localhost:5678/api/works')
     const works = await reponse.json()
     if(categoryName === "Tous"){
-    for (let i = 0; i < works.length; i++) {
-        // console.log(works[i].title)
-        //console.log(SectionWork[0])
-            
+    for (let i = 0; i < works.length; i++) {    
             // On crée chacun de nos élements
             let figure = document.createElement('figure')
             let image = document.createElement('img')
@@ -211,6 +285,7 @@ async function getWorks(categoryName){
             image.src = works[i].imageUrl
             image.alt = works[i].title
             figcaption.innerText = works[i].title
+            figcaption.setAttribute('id', works[i].id);
 
             //On les place dans les bonnes balise
             SectionWork[0].appendChild(figure)
@@ -286,3 +361,4 @@ function btnFilter(category){
 }
 
 const submit = document.getElementsByTagName('submit')
+
