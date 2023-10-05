@@ -236,6 +236,10 @@ a {
 	text-decoration: none;
 }
 
+#intro-i{
+	display: none;
+}
+
 .form_login{
 	display: flex;
 	flex-direction: column;
@@ -353,6 +357,7 @@ button.btn-filter.header {
 	transform: translate(-50%, -50%);
 	z-index: 10;
 	display: none;
+	overflow: auto;
 	
 }
 .modal_header h2{

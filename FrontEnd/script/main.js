@@ -6,11 +6,10 @@ const modalContent = document.getElementById('modal_content')
 const overlay = document.getElementsByClassName("overlay")[0]
 const modalEnd = document.getElementsByClassName("modal_end")[0]
 const modalH2 = document.getElementById('modal_h2')
-
-
-
+const submit = document.getElementsByTagName('submit')
 const modalFormBtn = document.getElementById("btn_modal")
-console.log(overlay)
+
+
 overlay.addEventListener('click', () => {
         if(overlay.style.display === 'block'){
             closeModal()
@@ -18,7 +17,6 @@ overlay.addEventListener('click', () => {
     })
 
  async function openModal(){
-    
     overlay.style.display = 'block'
     modalContent.innerHTML = ''
     modalEnd.innerHTML = ''
@@ -313,10 +311,6 @@ async function getWorks(categoryName){
             figure.appendChild(figcaption)
         }
     }
-    
-    
-
-    
 }
 
 async function getCategory(){
@@ -356,9 +350,6 @@ function btnFilter(category){
     category.setAttribute("selected","")
     SectionWork[0].innerHTML = ""
     getWorks(category.innerText)
-
-
 }
 
-const submit = document.getElementsByTagName('submit')
 

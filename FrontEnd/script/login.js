@@ -3,12 +3,14 @@ const p = document.getElementById("error-p")
 const a = document.getElementById("login-a")
 const h2 = document.getElementById("my-projets")
 const banner = document.getElementById("edit_mode")
+const changeI = document.getElementById("intro-i")
 // A modifier (Changer ID / Bouton)
 const myProject = document.getElementsByClassName("fa-regular fa-pen-to-square")[0]
 
 if (sessionStorage.getItem("token")){
-    alert('Vous êtes connecté')
-    console.log(a)
+    //alert('Vous êtes connecté')
+    changeI.style.display = 'block'
+    
     a.innerText = "logout"
 
     const iconElement = document.createElement("i");
@@ -31,7 +33,7 @@ if (sessionStorage.getItem("token")){
     })
 }
 else{
-    alert("Vous n'êtes pas connecté")
+    console.log("Not connected")
 }
 // Quand on submit
 form.addEventListener("submit", (event) => {
